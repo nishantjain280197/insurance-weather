@@ -37,4 +37,37 @@ router.post('/login', (req, res) => {
   });
 });
 
+router.post('/change-password', (req, res) => {
+  const authHeader = req.headers['authorization'];
+  const tokenStr = authHeader && authHeader.split(' ')[1];
+  if (!tokenStr) return res.status(401).json({ error: 'Authentication required' });
+
+  let decoded;
+  try {
+    decoded = jwt.verify(tokenStr, JWT_SECRET);
+  } catch {
+    return res.status(403).json({ error: 'Invalid or expired token' });
+  }
+
+  const { currentPassword, newPassword } = req.body;
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ error: 'Current and new passwords are required' });
+  }
+  if (newPassword.length < 6) {
+    return res.status(400).json({ error: 'New password must be at least 6 characters' });
+  }
+
+  const db = getDb();
+  const user = db.prepare('SELECT * FROM users WHERE id = ?').get(decoded.id);
+  if (!user) return res.status(404).json({ error: 'User not found' });
+
+  if (!bcrypt.compareSync(currentPassword, user.password)) {
+    return res.status(401).json({ error: 'Current password is incorrect' });
+  }
+
+  const hashed = bcrypt.hashSync(newPassword, 10);
+  db.prepare('UPDATE users SET password = ? WHERE id = ?').run(hashed, decoded.id);
+  res.json({ message: 'Password changed successfully' });
+});
+
 module.exports = router;

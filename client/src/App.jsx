@@ -1,11 +1,12 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
-  if (loading) return <div className="flex items-center justify-center h-screen bg-storm-950 text-white">Loading...</div>;
+  if (loading) return <div className="flex items-center justify-center h-screen bg-gray-50 dark:bg-storm-950 text-gray-900 dark:text-white">Loading...</div>;
   if (!user) return <Navigate to="/login" />;
   return children;
 }
@@ -32,9 +33,11 @@ function AppRoutes() {
 export default function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <AppRoutes />
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <AppRoutes />
+        </AuthProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 }
