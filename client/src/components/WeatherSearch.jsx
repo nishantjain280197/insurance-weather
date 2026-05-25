@@ -68,9 +68,9 @@ export default function WeatherSearch({ onSearchComplete }) {
     const addr = suggestion.address || {};
     const road = [addr.house_number, addr.road].filter(Boolean).join(' ');
     const city = addr.city || addr.town || addr.village || addr.hamlet || '';
-    const stateCode = US_STATES.find(
-      (s) => s === (addr.state_code || '').toUpperCase()
-    ) || '';
+    const iso = addr['ISO3166-2-lvl4'] || '';
+    const parsed = iso.startsWith('US-') ? iso.slice(3) : (addr.state_code || '').toUpperCase();
+    const stateCode = US_STATES.find((s) => s === parsed) || '';
     const zip = addr.postcode || '';
 
     setForm({
