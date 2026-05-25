@@ -100,4 +100,46 @@ router.delete('/:id', (req, res) => {
   res.json({ message: 'User deleted successfully' });
 });
 
+router.post('/notify', (req, res) => {
+  const { email, password, role, portalUrl } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ error: 'Email is required' });
+  }
+
+  const emailContent = {
+    to: email,
+    subject: 'Welcome to WeatherShield Portal',
+    body: [
+      `Hello,`,
+      ``,
+      `You have been invited to the WeatherShield Insurance Weather Portal.`,
+      ``,
+      `Your login credentials:`,
+      `  Email: ${email}`,
+      `  Password: ${password || '(set by admin)'}`,
+      `  Role: ${role || 'user'}`,
+      ``,
+      portalUrl ? `Portal URL: ${portalUrl}` : '',
+      ``,
+      `Please change your password after your first login.`,
+      ``,
+      `— WeatherShield Admin`,
+    ].filter(Boolean).join('\n'),
+  };
+
+  console.log('--- EMAIL NOTIFICATION (simulated) ---');
+  console.log(`To: ${emailContent.to}`);
+  console.log(`Subject: ${emailContent.subject}`);
+  console.log(`Body:\n${emailContent.body}`);
+  console.log('--- END EMAIL ---');
+
+  res.json({
+    success: true,
+    message: `Welcome email queued for ${email}`,
+    simulated: true,
+    email: emailContent,
+  });
+});
+
 module.exports = router;
