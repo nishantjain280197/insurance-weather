@@ -55,6 +55,23 @@ npm start
 
 The production server serves the built frontend and API on port 3001.
 
+## Deploy to Render (Free)
+
+1. Push this repo to GitHub
+2. Go to [render.com/new](https://render.com/new) → **Blueprint** → connect your GitHub repo
+3. Render will auto-detect `render.yaml` and create the service
+4. Click **Apply** — it will build and deploy automatically
+5. Your app will be live at `https://weathershield-xxxx.onrender.com`
+
+**Or deploy manually:**
+1. Go to [render.com/new](https://render.com/new) → **Web Service** → connect your repo
+2. Set **Build Command**: `npm run install:all && npm run build`
+3. Set **Start Command**: `npm start`
+4. Set **Environment Variable**: `NODE_ENV` = `production`
+5. Click **Create Web Service**
+
+> **Note:** Render's free tier uses ephemeral storage — the SQLite database resets on each deploy. The default admin account auto-recreates on startup. For persistent data, upgrade to a paid plan or switch to PostgreSQL.
+
 ## Default Credentials
 
 | Role  | Email                     | Password  |
