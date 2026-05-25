@@ -3,10 +3,9 @@ services:
     name: weathershield
     runtime: node
     plan: free
+    nodeVersion: 20.18.0
     buildCommand: npm run install:all && npm run build
-    startCommand: npm start
+    startCommand: NODE_ENV=production npm start
     envVars:
-      - key: NODE_ENV
-        value: production
       - key: JWT_SECRET
         generateValue: true
