@@ -9,6 +9,9 @@ import ChangePassword from './ChangePassword';
 import AuditLog from './AuditLog';
 import PerilThresholds from './PerilThresholds';
 import BatchUpload from './BatchUpload';
+import ComparisonView from './ComparisonView';
+import ClaimsDashboard from './ClaimsDashboard';
+import MapHeatmap from './MapHeatmap';
 import { useAuth } from '../context/AuthContext';
 
 export default function Dashboard() {
@@ -35,6 +38,9 @@ export default function Dashboard() {
         {activeTab === 'history' && <SearchHistory onView={handleViewFromHistory} />}
         {activeTab === 'analytics' && <Analytics data={analyticsData} />}
         {activeTab === 'batch' && <BatchUpload />}
+        {activeTab === 'compare' && <ComparisonView />}
+        {activeTab === 'claims' && <ClaimsDashboard />}
+        {activeTab === 'heatmap' && <MapHeatmap />}
         {activeTab === 'admin' && user?.role === 'admin' && <AdminPanel />}
         {activeTab === 'audit' && user?.role === 'admin' && <AuditLog />}
         {activeTab === 'thresholds' && user?.role === 'admin' && <PerilThresholds />}

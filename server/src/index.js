@@ -10,6 +10,7 @@ const auditRoutes = require('./routes/audit');
 const thresholdsRoutes = require('./routes/thresholds');
 const alertsRoutes = require('./routes/alerts');
 const batchRoutes = require('./routes/batch');
+const claimsRoutes = require('./routes/claims');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -26,6 +27,7 @@ app.use('/api/audit', auditRoutes);
 app.use('/api/thresholds', thresholdsRoutes);
 app.use('/api/alerts', alertsRoutes);
 app.use('/api/batch', batchRoutes);
+app.use('/api/claims', claimsRoutes);
 
 const clientDist = path.join(__dirname, '..', '..', 'client', 'dist');
 app.use(express.static(clientDist));
