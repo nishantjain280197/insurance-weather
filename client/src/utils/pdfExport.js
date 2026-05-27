@@ -1,5 +1,5 @@
 import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import autoTable from 'jspdf-autotable';
 
 export function exportAnalyticsPdf(data) {
   if (!data) return;
@@ -59,7 +59,7 @@ export function exportAnalyticsPdf(data) {
       .sort((a, b) => b[1] - a[1])
       .map(([type, count]) => [type, count.toString(), `${((count / (insights.total_days || 1)) * 100).toFixed(1)}%`]);
 
-    doc.autoTable({
+    autoTable(doc, {
       startY: startY + 4,
       head: [['Peril Type', 'Days', '% of Period']],
       body: perilRows,
@@ -90,7 +90,7 @@ export function exportAnalyticsPdf(data) {
         `${d.windgusts_max?.toFixed(0)} mph`,
       ]);
 
-    doc.autoTable({
+    autoTable(doc, {
       startY: 26,
       head: [['Date', 'Perils', 'Temp', 'Precip', 'Wind']],
       body: eventRows,
