@@ -2,6 +2,7 @@ const express = require('express');
 const { getDb } = require('../db/database');
 const { authenticateToken } = require('../middleware/auth');
 const { fetchWeatherData, generateInsights } = require('../services/weatherService');
+const { logAudit } = require('./audit');
 
 const router = express.Router();
 
@@ -47,6 +48,7 @@ router.post('/search', async (req, res) => {
         JSON.stringify({ days: weatherDays, insights })
       );
 
+    logAudit(req.user.id, req.user.email, 'WEATHER_SEARCH', `${city}, ${state} - DOL: ${date_of_loss}`, req.ip);
     res.json({
       id: result.lastInsertRowid,
       location: { street_address, city, state, zipcode, latitude, longitude },

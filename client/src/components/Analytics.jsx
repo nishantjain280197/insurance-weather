@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { exportAnalyticsPdf } from '../utils/pdfExport';
 import {
   AreaChart, Area, BarChart, Bar, LineChart, Line,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -211,12 +212,23 @@ export default function Analytics({ data }) {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold text-white">Weather Analytics</h2>
-        <p className="text-storm-400 mt-1">
-          {[location?.city, location?.state].filter(Boolean).join(', ')} &mdash;{' '}
-          {date_range?.start_date} to {date_range?.end_date}
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Weather Analytics</h2>
+          <p className="text-gray-500 dark:text-storm-400 mt-1">
+            {[location?.city, location?.state].filter(Boolean).join(', ')} &mdash;{' '}
+            {date_range?.start_date} to {date_range?.end_date}
+          </p>
+        </div>
+        <button
+          onClick={() => exportAnalyticsPdf(data)}
+          className="flex items-center gap-2 px-4 py-2 bg-storm-600 hover:bg-storm-500 text-white rounded-lg transition text-sm font-medium"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+          </svg>
+          Export PDF
+        </button>
       </div>
 
       {/* Date of Loss Highlight */}
