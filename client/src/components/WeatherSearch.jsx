@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import MapView from './MapView';
 import SavedLocations from './SavedLocations';
+import WeatherAlerts from './WeatherAlerts';
 
 const US_STATES = [
   'AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS',
@@ -378,6 +379,8 @@ export default function WeatherSearch({ onSearchComplete }) {
           )}
         </div>
       </div>
+
+      <WeatherAlerts latitude={coords.latitude} longitude={coords.longitude} city={form.city} state={form.state} />
 
       <SavedLocations onSelectLocation={(loc) => {
         setForm({
