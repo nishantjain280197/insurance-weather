@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { getDb } = require('../db/database');
 const { JWT_SECRET } = require('../middleware/auth');
+const { logAudit } = require('./audit');
 
 const router = express.Router();
 
@@ -31,6 +32,7 @@ router.post('/login', (req, res) => {
     { expiresIn: '24h' }
   );
 
+  logAudit(user.id, user.email, 'LOGIN', null, req.ip);
   res.json({
     token,
     user: { id: user.id, email: user.email, role: user.role },
@@ -67,6 +69,7 @@ router.post('/change-password', (req, res) => {
 
   const hashed = bcrypt.hashSync(newPassword, 10);
   db.prepare('UPDATE users SET password = ? WHERE id = ?').run(hashed, decoded.id);
+  logAudit(decoded.id, decoded.email, 'PASSWORD_CHANGE', null, req.ip);
   res.json({ message: 'Password changed successfully' });
 });
 

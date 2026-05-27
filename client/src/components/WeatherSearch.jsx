@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import MapView from './MapView';
+import SavedLocations from './SavedLocations';
 
 const US_STATES = [
   'AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS',
@@ -377,6 +378,18 @@ export default function WeatherSearch({ onSearchComplete }) {
           )}
         </div>
       </div>
+
+      <SavedLocations onSelectLocation={(loc) => {
+        setForm({
+          street_address: loc.street_address || '',
+          city: loc.city,
+          state: loc.state,
+          zipcode: loc.zipcode || '',
+          date_of_loss: form.date_of_loss,
+        });
+        setCoords({ latitude: loc.latitude, longitude: loc.longitude });
+        setAddressDisplay([loc.street_address, loc.city, loc.state, loc.zipcode].filter(Boolean).join(', '));
+      }} />
     </div>
   );
 }

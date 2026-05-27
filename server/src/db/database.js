@@ -45,6 +45,22 @@ function initializeDb() {
   `);
 
   db.exec(`
+    CREATE TABLE IF NOT EXISTS saved_locations (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      name TEXT NOT NULL,
+      street_address TEXT,
+      city TEXT NOT NULL,
+      state TEXT NOT NULL,
+      zipcode TEXT,
+      latitude REAL NOT NULL,
+      longitude REAL NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+  `);
+
+  db.exec(`
     CREATE TABLE IF NOT EXISTS audit_log (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       user_id INTEGER,
