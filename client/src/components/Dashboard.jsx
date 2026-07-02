@@ -7,8 +7,7 @@ import Analytics from './Analytics';
 import AdminPanel from './AdminPanel';
 import ChangePassword from './ChangePassword';
 import AuditLog from './AuditLog';
-import PerilThresholds from './PerilThresholds';
-import BatchUpload from './BatchUpload';
+
 import { useAuth } from '../context/AuthContext';
 
 export default function Dashboard() {
@@ -34,10 +33,8 @@ export default function Dashboard() {
         {activeTab === 'search' && <WeatherSearch onSearchComplete={handleSearchComplete} />}
         {activeTab === 'history' && <SearchHistory onView={handleViewFromHistory} />}
         {activeTab === 'analytics' && <Analytics data={analyticsData} />}
-        {activeTab === 'batch' && <BatchUpload />}
         {activeTab === 'admin' && user?.role === 'admin' && <AdminPanel />}
         {activeTab === 'audit' && user?.role === 'admin' && <AuditLog />}
-        {activeTab === 'thresholds' && user?.role === 'admin' && <PerilThresholds />}
         {activeTab === 'password' && <ChangePassword />}
       </main>
     </div>
