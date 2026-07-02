@@ -72,25 +72,7 @@ function initializeDb() {
     );
   `);
 
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS peril_thresholds (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      wind_speed_mph REAL DEFAULT 58,
-      wind_severe_mph REAL DEFAULT 65,
-      wind_extreme_mph REAL DEFAULT 75,
-      rain_minor_inches REAL DEFAULT 2.0,
-      rain_moderate_inches REAL DEFAULT 3.0,
-      rain_severe_inches REAL DEFAULT 4.0,
-      hail_codes TEXT DEFAULT '96,99',
-      thunderstorm_codes TEXT DEFAULT '95,96,99',
-      winter_storm_codes TEXT DEFAULT '71,73,75,77,85,86',
-      ice_storm_codes TEXT DEFAULT '56,57,66,67',
-      winter_temp_max_f REAL DEFAULT 32,
-      tornado_wind_mph REAL DEFAULT 75,
-      updated_by INTEGER,
-      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    );
-  `);
+
 
   db.exec(`
     CREATE TABLE IF NOT EXISTS claims (
