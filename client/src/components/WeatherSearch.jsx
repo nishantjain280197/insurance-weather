@@ -41,12 +41,12 @@ export default function WeatherSearch({ onSearchComplete }) {
   }, []);
 
   const fetchSuggestions = useCallback(async (query) => {
-    if (query.length < 3) {
+    if (query.length < 2) {
       setSuggestions([]);
       return;
     }
     try {
-      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query + ', USA')}&limit=5&countrycodes=us&addressdetails=1`;
+      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=8&countrycodes=us&addressdetails=1&viewbox=-91.513,42.508,-87.019,36.970&bounded=0`;
       const res = await fetch(url, {
         headers: { 'User-Agent': 'WeatherShield-InsurancePortal/1.0' },
       });
@@ -63,7 +63,7 @@ export default function WeatherSearch({ onSearchComplete }) {
     const value = e.target.value;
     setForm({ ...form, street_address: value });
     if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => fetchSuggestions(value), 400);
+    debounceRef.current = setTimeout(() => fetchSuggestions(value), 300);
   };
 
   const handleSuggestionSelect = (suggestion) => {
@@ -211,7 +211,7 @@ export default function WeatherSearch({ onSearchComplete }) {
                 onChange={handleAddressInput}
                 onKeyDown={handleAddressKeyDown}
                 onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
-                placeholder="Start typing an address..."
+                placeholder="Start typing an address (e.g. 123 Main St, Chicago, IL)..."
                 autoComplete="off"
                 className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white placeholder-storm-500 focus:outline-none focus:ring-2 focus:ring-storm-500 transition"
               />
@@ -248,7 +248,7 @@ export default function WeatherSearch({ onSearchComplete }) {
                   name="city"
                   value={form.city}
                   onChange={handleChange}
-                  placeholder="Houston"
+                  placeholder="Chicago"
                   required
                   className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white placeholder-storm-500 focus:outline-none focus:ring-2 focus:ring-storm-500 transition"
                 />
@@ -277,7 +277,7 @@ export default function WeatherSearch({ onSearchComplete }) {
                 name="zipcode"
                 value={form.zipcode}
                 onChange={handleChange}
-                placeholder="77001"
+                placeholder="60601"
                 maxLength={5}
                 className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white placeholder-storm-500 focus:outline-none focus:ring-2 focus:ring-storm-500 transition"
               />

@@ -140,11 +140,7 @@ export default function Login() {
             </button>
           </form>
 
-          <div className="mt-6 pt-4 border-t border-white/10">
-            <p className="text-xs text-storm-400 text-center">
-              Default credentials: <span className="text-storm-300">admin@weatherportal.com</span> / <span className="text-storm-300">Admin@123</span>
-            </p>
-          </div>
+
         </div>
 
         <p className="text-center text-storm-500 text-xs mt-6">
